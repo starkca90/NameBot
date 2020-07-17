@@ -7,8 +7,8 @@ module.exports = function(controller) {
             
             bot.api.memberships.list({roomId: message.channel})
             .then(function(memberships) {
-                for (var i = 0; i < members.length; i++) {
-                    console.log(members[i]);
+                for (var i = 0; i < memberships.length; i++) {
+                    console.log(memberships[i]);
                 }
             });
         
