@@ -4,11 +4,13 @@ module.exports = function(controller) {
         await bot.reply(message, 'OK, refreshing room attendees');
 
         try {
-            
+            let botId = bot.getIdentiy()
+            console.log(botId)
             bot.api.memberships.list({roomId: message.channel})
             .then(function(memberships) {
                 for (var i = 0; i < memberships.length; i++) {
-                    console.log(memberships[i]);
+                    console.log(memberships.items[i].id);
+                    console.log()
                 }
             });
         
