@@ -4,7 +4,7 @@ module.exports = function(controller) {
         await bot.reply(message, 'OK, refreshing room attendees');
 
         try {
-            let botId = bot.getIdentiy()
+            let botId = await bot.api.people.get('me')
             console.log(botId)
             bot.api.memberships.list({roomId: message.channel})
             .then(function(memberships) {
