@@ -14,7 +14,6 @@
     "botkit-plugin-cms": "^1.0.3",
     "dotenv": "^8.2.0",
     "adaptivecards-templating": "^1.0.0",
-    "mongodb": "^3.5.9",
-    "webex": "^1.81.4"
+    "mongodb": "^3.5.9"
   }
 }
