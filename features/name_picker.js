@@ -5,7 +5,7 @@ module.exports = function(controller) {
 
         try {
             
-            let members = await webex.memberships.list({roomId: message.channel})
+            bot.api.memberships.list({roomId: message.channel})
             .then(function(memberships) {
                 for (var i = 0; i < members.length; i++) {
                     console.log(members[i]);
