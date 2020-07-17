@@ -1,3 +1,5 @@
+const MongDB = require ('../lib/mongodb')
+
 module.exports = function(controller) {
     
     controller.hears(async (message) => message.text && message.text.toLowerCase() == 'refresh', ['message'], async (bot, message) => {
@@ -5,12 +7,17 @@ module.exports = function(controller) {
 
         try {
             let botId = await bot.api.people.get('me')
-            console.log(botId)
+            console.log(botId.id)
             bot.api.memberships.list({roomId: message.channel})
             .then(function(memberships) {
                 for (var i = 0; i < memberships.length; i++) {
-                    console.log(memberships.items[i].id);
-                    console.log()
+                    console.log(memberships.items[i].personId);
+                    
+                    if (memberships.items[i].personId == botId.id) {
+                        console.log('That\'s Me!')
+                    } else {
+                        MongDB.userInsert(memberships.items[i].personId, message.channel)
+                    }
                 }
             });
         
