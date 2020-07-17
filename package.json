@@ -1,0 +1,19 @@
+{
+  "name": "botkit-namebot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js",
+    "test": "echo \"Error: no test specified\""
+  },
+  "dependencies": {
+    "botbuilder-adapter-webex": "^1.0.8",
+    "botbuilder-storage-mongodb": "^0.9.5",
+    "botkit": "^4.9.0",
+    "botkit-plugin-cms": "^1.0.3",
+    "dotenv": "^8.2.0",
+    "adaptivecards-templating": "^1.0.0",
+    "mongodb": "^3.5.9"
+  }
+}
