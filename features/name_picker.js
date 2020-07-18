@@ -68,6 +68,11 @@ module.exports = function(controller) {
                     // markdown: '<@personEmail:' + selectedUser.emails[0] + '|' + selectedUser.nickName + '>, I choose you!',
                     attachments: cardPayload
                 });
+
+                await bot.reply(message, {
+                    text: selectedUser.nickName + ', I choose you!',
+                    markdown: '<@personEmail:' + selectedUser.emails[0] + '|' + selectedUser.nickName + '>, I choose you!',
+                });
             } else {
                 await bot.reply(message, 'Well this is awkward, I don\'t have a name');
             }
