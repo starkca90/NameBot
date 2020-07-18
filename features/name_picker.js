@@ -1,4 +1,6 @@
-const MongDB = require ('../lib/mongodb')
+const cards = require('../lib/cards');
+const ACData = require('adaptivecards-templating');
+const MongoDB = require ('../lib/mongodb');
 
 module.exports = function(controller) {
     
@@ -16,7 +18,7 @@ module.exports = function(controller) {
                     if (memberships.items[i].personId == botId.id) {
                         console.log('That\'s Me!')
                     } else {
-                        MongDB.userInsert(memberships.items[i].personId, message.channel)
+                        MongoDB.userInsert(memberships.items[i].personId, message.channel)
                     }
                 }
             });
@@ -28,6 +30,48 @@ module.exports = function(controller) {
     });
 
     controller.hears(async (message) => message.text && message.text.toLowerCase() == 'select', ['message'], async (bot, message) => {
-        await bot.reply(message, 'Pikachu, I choose you!');
+
+        try {
+            let userId = await MongoDB.userSelect(message.channel);
+
+            if (userId != null) {
+                let selectedUser = await bot.api.people.get(userId.user);
+
+                var cardTemplate = new ACData.Template(cards['selection']);
+    
+                var cardPayload = cardTemplate.expand({
+                    $root: {
+                        "user": {
+                            "avatar": selectedUser.avatar,
+                            "displayName": selectedUser.displayName
+                        },
+                        "properties": [
+                            {
+                                "key": "Email",
+                                "value": selectedUser.emails[0]
+                            },
+                            {
+                                "key": "Phone",
+                                "value": selectedUser.phoneNumbers[0].value
+                            }
+                        ]
+                    }
+                })
+        
+                await bot.reply(message, {
+                    text: selectedUser.nickName + ', I choose you!',
+                    // markdown: '<@personEmail:' + selectedUser.emails[0] + '|' + selectedUser.nickName + '>, I choose you!',
+                    attachments: cardPayload
+                });
+            } else {
+                await bot.reply(message, 'Well this is awkward, I don\'t have a name');
+            }
+    
+ 
+
+        } catch (err) {
+            console.log(err);
+        }
+
     });
 }
