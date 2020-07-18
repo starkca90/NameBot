@@ -18,7 +18,7 @@ module.exports = function(controller) {
                     if (memberships.items[i].personId == botId.id) {
                         console.log('That\'s Me!')
                     } else {
-                        MongoDB.userInsert(memberships.items[i].personId, message.channel)
+                        MongoDB.userInsert(memberships.items[i].personId, memberships.items[i].personDisplayName, message.channel)
                     }
                 }
             });
@@ -36,8 +36,13 @@ module.exports = function(controller) {
 
             if (userId != null) {
                 let selectedUser = await bot.api.people.get(userId.user);
+                let phoneNumber = '5555555555'
 
                 var cardTemplate = new ACData.Template(cards['selection']);
+
+                if (selectedUser.phoneNumbers.length > 0) {
+                    phoneNumber = selectedUser.phoneNumbers[0].value;
+                }
     
                 var cardPayload = cardTemplate.expand({
                     $root: {
@@ -52,7 +57,7 @@ module.exports = function(controller) {
                             },
                             {
                                 "key": "Phone",
-                                "value": selectedUser.phoneNumbers[0].value
+                                "value": phoneNumber
                             }
                         ]
                     }
